@@ -1,0 +1,53 @@
+This is a README file for the pdsinfo and pdsmerge MODIS Level-0 utilities.
+
+The pdsinfo and pdsmerge programs were written by Stefan W Maier of
+Charles Darwin University, Australia. See the source code for license
+information. The OBPG makes no guarantee that any of this software will
+work as expected. Use at your own risk! 
+
+Please contact Stefan Maier for any support questions, e.g. if you discover
+a bug, come up with suggestions for improvements, or make improvements:
+
+Stefan.Maier@cdu.edu.au
+
+===========================================================================
+OVERVIEW
+
+pdsinfo and pdsmerge are utilites are for use with Level-0 MODIS data files
+in the PDS file format. If you are processing MODIS Level-0 data with
+corrupt or missing packets and the SeaDAS l0fix_modis binary (automatically
+triggered by SeaDAS when needed) fails to sufficiently repair a file for
+successful processing, then it is possible pdsmerge could be used to fix
+the file.
+
+pdsmerge also has the capability to merge overlapping PDS passes/granules
+from the SAME ORBIT from different receiving stations (including Level-0
+granules obtained from the Ocean Biology Processing Group). pdsmerge can
+also be used to split up DB passes into granules.
+
+===========================================================================
+pdsinfo - provides info about the contents of a PDS file
+
+Usage: pdsinfo <input MODIS Level-0 PDS file>
+
+Usage example: pdsinfo MOD00.P2009111.2235_1.PDS
+
+Build command: cc pdsinfo.c -o pdsinfo -lm
+
+===========================================================================
+pdsmerge - removes bad packets from a PDS file
+         - removes all packets having a different APID than that specified
+           on the command-line
+         - merges overlapping PDS files from different sources (overlapping
+           refers to successive granules from the SAME ORBIT, not adjacent
+           granules from different orbits!)
+         - splits DB passes into granules
+
+Usage : pdsmerge start_date end_date APID <input 1> [<input 2> [...]] output
+        (where start_date/end_date format is: YYYY/MM/DD,hh:mm:ss or -)
+
+Usage example: pdsmerge - - 64 MOD00.P2009111.2235_1.PDS MOD00.P2009111.2235_1.fixed
+
+Build command: cc pdsmerge.c -o pdsmerge -lm
+
+===========================================================================
